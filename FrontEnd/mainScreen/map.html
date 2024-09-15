@@ -75,6 +75,7 @@
     let directionsRenderer;
     let trafficLayer;
     let markerStart, markerEnd;
+    let clusterCircles = [];
 
     // Autocomplete objects for start and destination
     let autocompleteStart, autocompleteDestination;
@@ -100,14 +101,7 @@
         panel: document.getElementById('directions-panel'),
       });
 
-      const clussterData = [
-      { lat: 34.0141, lng: -118.2978},
-      { lat: 34.0459, lng: -118.2545 },
-      { lat: 34.0448, lng: -118.2474 }
-      ];
 
-      // Call displayClusterData function here
-      //displayClusterData(clusterData);
 
       // Initialize traffic layer (optional)
       trafficLayer = new google.maps.TrafficLayer();
@@ -151,11 +145,14 @@
       const start = startPlace ? startPlace.geometry.location : document.getElementById("start").value;
       const destination = destinationPlace ? destinationPlace.geometry.location : document.getElementById("destination").value;
 
+      const waypoints = calculateWaypoints();
+
       // Define route request parameters
       const request = {
         origin: start,
         destination: destination,
         travelMode: 'WALKING',
+        
       };
 
       // Request the route from DirectionsService
@@ -211,9 +208,11 @@
                 fillColor: '#FF0000',
                 fillOpacity: 0.35,
                 map: map,
-                radius: Math.sqrt(cluster.size) * 10,
+                radius: Math.sqrt(cluster.size) * 2,
                 title: `Cluster size: ${cluster.size}`
             });
+
+            clusterCircles.push(marker);
 
             const infoWindow = new google.maps.InfoWindow({
                 content: `Cluster size: ${cluster.size}`
@@ -224,6 +223,27 @@
             });
         });
     }
+    function calculateWaypoints() {
+            const waypoints = [];
+
+            clusterCircles.forEach(circle => {
+                const center = circle.getCenter();
+                const radius = circle.getRadius();
+
+                // Calculate points around the perimeter of the circle
+                const numPoints = 8; // Number of waypoints around each circle
+                for (let i = 0; i < numPoints; i++) {
+                    const angle = (i * 360) / numPoints;
+                    const point = google.maps.geometry.spherical.computeOffset(center, radius, angle);
+                    waypoints.push({
+                        location: point,
+                        stopover: false
+                    });
+                }
+            });
+
+            return waypoints;
+        }
   </script>
 
   <!-- Load Google Maps API asynchronously with defer -->
