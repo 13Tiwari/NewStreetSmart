@@ -1,5 +1,17 @@
-.logoShowOff .space {
-    margin: 500px;
+.space {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    background-color: gray;
+    border-radius: 50%;
+    margin: 5px 0;
+    margin: 175px;
 }
 
 .safeTravelInfo {
@@ -7,6 +19,26 @@
     justify-content: center;
     align-items: center;
     font-family: 'Orbitron';
-    font: 20px;
+    font-size: 20px;
     text-align: center;
-  }
+}
+
+.fact{
+    font-family: 'Orbitron';
+    font-size: 20px;
+}
+
+.quote {
+    font-family: 'Orbitron';
+    font-size: 20px;
+}
+
+.question {
+    font-family: 'Orbitron';
+    font-size: 30px;
+    margin: 30px;
+}
+
+.spaceSpecial {
+    margin: 40px;
+}

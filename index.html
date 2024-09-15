@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="FrontEnd/mainScreen/final/site/css/home.css">
     <link rel="stylesheet" href="FrontEnd/mainScreen/final/site/css/routeFinder.css">
     <link rel="stylesheet" href="FrontEnd/mainScreen/final/site/css/logoShowOff.css">
+    <link rel="stylesheet" href="FrontEnd/mainScreen/final/site/css/img.css">
     <style>.ie-panel{display: none;background: #212121;padding: 10px 0;box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3);clear: both;text-align:center;position: relative;z-index: 1;} html.ie-10 .ie-panel, html.lt-ie-10 .ie-panel {display: block;}</style>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
@@ -101,7 +102,7 @@
 
         <div class="space">
           <div class="dot"></div>
-          <img src="FrontEnd/mainScreen/final/site/images/crimePolitical.png" class="crime1">
+          <img src="FrontEnd/mainScreen/final/site/images/crimePIC.png" class="crime1">
           <div class="dot"></div>
         </div>
 
@@ -127,20 +128,22 @@
 
         <div class="question">
           <p>what will you do?</p>
+        </div>        
+
+        <class class="spaceSpecial"></class>
+      </div>
+
+      <!--
+      <div class="showOff">
+        <div id="imgContainer">
+          <img src="FrontEnd/mainScreen/final/site/images/StreeSmartLogo.png" class="showOffLogo" id="zoomImage">
         </div>
 
-        <div class="space"></div>
-
-        <div class="showOff">
-          <div id="imgContainer">
-            <img src="FrontEnd/mainScreen/final/site/images/StreeSmartLogo.png" class="showOffLogo" id="zoomImage">
-          </div>
-          <!--Logo show off-->
-          <div class="safeTravelInfo">
-            <p>committed to make every journey safer</p>
-          </div>
+        <div class="safeTravelInfo">
+          <p>committed to make every journey safer</p>
         </div>
       </div>
+      -->
 
       <!-- Route Finder -->
       <section class="section section-sm section-fluid bg-default text-center" id="RouteFinder">
@@ -217,11 +220,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/globe.gl@2.22.3/dist/globe.gl.min.js"></script>
-    <script src="FrontEnd/mainScreen/final/site/logo.js"></script>
     <script>
       // JavaScript function to handle button click
       function navigateToMap() {
-          window.location.href = 'map.html';
+          window.location.href = 'FrontEnd/mainScreen/map.html';
       }
 
       // Attach the function to the button click event
@@ -230,8 +232,8 @@
 
   <script>
     // JavaScript function to handle button click
-    function navigateToMap() {
-          window.location.href = 'map.html';
+      function navigateToMap() {
+          window.location.href = 'FrontEnd/mainScreen/map.html';
       }
 
       // Attach the function to the button click event

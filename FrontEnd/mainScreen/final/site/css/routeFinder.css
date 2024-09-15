@@ -22,6 +22,7 @@
 }
 
 .RouteFinder {
+    margin: 40px;
     display: flex;
     align-items: center;
 }
@@ -33,6 +34,7 @@
 }
 
 .contents {
+    padding-bottom: 100px;
     display: flex;
     justify-content: space-between;
     align-items: center;

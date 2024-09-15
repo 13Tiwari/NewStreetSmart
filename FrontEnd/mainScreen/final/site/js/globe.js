@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
   const WORLD_IMAGE_URL = '//unpkg.com/three-globe/example/img/earth-dark.jpg';
-  const GEOJSON_PATH = '../datasets/updated_world.geojson';
+  const GEOJSON_PATH = 'FrontEnd/mainScreen/final/site/datasets/updated_world.geojson';
   
   const world = Globe()(document.getElementById('globe'));
 
@@ -16,7 +16,8 @@ document.addEventListener('DOMContentLoaded', function() {
     .height(500);
 
   world.controls().autoRotate = true;
-  world.controls().autoRotateSpeed = 0.75;
+  world.controls().autoRotateSpeed = 2.75;
+  world.controls().enableZoom = false;
 
   fetch(GEOJSON_PATH)
     .then(res => res.json())
