@@ -133,8 +133,7 @@
       fetch('http://127.0.0.1:5000/api/cluster-data')
                 .then(response => response.clusters)
                 .then(clusterData => {
-                    // Call displayClusterData function here
-                    clusterData = response.clusters;
+                    // Call displayClusterData function here;
                     console.log(clusterData);
                     displayClusterData(clusterData);
                 })
@@ -197,21 +196,28 @@
         });
       }
     }
-    function displayClusterData(data) {
-            data.forEach(point => {
-                new google.maps.Marker({
-                    position: point,
-                    map: map,
-                    icon: {
-                        path: google.maps.SymbolPath.CIRCLE,
-                        scale: 5,
-                        fillColor: 'black',
-                        fillOpacity: 1,
-                        strokeWeight: 0
-                    }
-                });
-            });
+    function displayClusterData(clusterData) {
+        if (!Array.isArray(clusterData)) {
+            console.error('Invalid cluster data:', clusterData);
+            return;
         }
+
+        clusterData.forEach(cluster => {
+            const marker = new google.maps.Marker({
+                position: { lat: cluster.lat, lng: cluster.lng },
+                map: map,
+                title: `Cluster size: ${cluster.size}`
+            });
+
+            const infoWindow = new google.maps.InfoWindow({
+                content: `Cluster size: ${cluster.size}`
+            });
+
+            marker.addListener('click', () => {
+                infoWindow.open(map, marker);
+            });
+        });
+    }
   </script>
 
   <!-- Load Google Maps API asynchronously with defer -->
