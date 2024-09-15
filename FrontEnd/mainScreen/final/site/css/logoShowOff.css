@@ -36,9 +36,11 @@
 .question {
     font-family: 'Orbitron';
     font-size: 30px;
-    margin: 30px;
+    margin: 250px;
+    margin-bottom: 400px;
 }
 
 .spaceSpecial {
     margin: 40px;
 }
+

@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="FrontEnd/mainScreen/final/site/css/routeFinder.css">
     <link rel="stylesheet" href="FrontEnd/mainScreen/final/site/css/logoShowOff.css">
     <link rel="stylesheet" href="FrontEnd/mainScreen/final/site/css/img.css">
+    <link rel="stylesheet" href="FrontEnd/mainScreen/final/site/css/zoom.css">
     <style>.ie-panel{display: none;background: #212121;padding: 10px 0;box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3);clear: both;text-align:center;position: relative;z-index: 1;} html.ie-10 .ie-panel, html.lt-ie-10 .ie-panel {display: block;}</style>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
@@ -125,25 +126,20 @@
         <div class="space">
           <div class="dot"></div>
         </div>
-
-        <div class="question">
-          <p>what will you do?</p>
-        </div>        
-
-        <class class="spaceSpecial"></class>
       </div>
 
-      <!--
+      <div class="question">
+        <p>what will you do?</p>
+      </div>        
+
       <div class="showOff">
         <div id="imgContainer">
           <img src="FrontEnd/mainScreen/final/site/images/StreeSmartLogo.png" class="showOffLogo" id="zoomImage">
         </div>
-
         <div class="safeTravelInfo">
           <p>committed to make every journey safer</p>
         </div>
       </div>
-      -->
 
       <!-- Route Finder -->
       <section class="section section-sm section-fluid bg-default text-center" id="RouteFinder">
@@ -230,49 +226,65 @@
       document.getElementById('routeBtn').addEventListener('click', navigateToMap);
     </script>
 
-  <script>
-    // JavaScript function to handle button click
-      function navigateToMap() {
-          window.location.href = 'FrontEnd/mainScreen/map.html';
-      }
-
-      // Attach the function to the button click event
-      document.getElementById('routeBtn').addEventListener('click', navigateToMap);
-      
-      // Function to handle scroll-based zooming
-      function handleScrollZoom() {
+     <!-- Javascript-->
+     <script src="js/core.min.js"></script>
+     <script src="js/script.js"></script>
+     <script src="js/globe.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/globe.gl@2.22.3/dist/globe.gl.min.js"></script>
+     <script src="logo.js"></script>
+     <script>
+       // JavaScript function to handle button click
+       function navigateToMap() {
+           window.location.href = 'map.html';
+       }
+ 
+       document.getElementById('routeBtn').addEventListener('click', navigateToMap);
+       
+       // Function to handle scroll-based zooming
+       document.addEventListener('DOMContentLoaded', function() {
         const image = document.getElementById('zoomImage');
-        
-        const scrollFraction = Math.min(window.scrollY / (document.documentElement.scrollHeight - window.innerHeight), 1);
-        const maxScale = 1.7;
-        const scale = 1 + 1.3*((scrollFraction) * (maxScale - 1));
+        const maxScale = 2; // Adjust this value for more or less zoom
 
-        image.style.transform = `scale(${scale})`;
-        
-        if (scale >= maxScale) {
-          image.style.transform = `scale(${maxScale})`;
-        }
+        function handleScrollZoom() {
+          // Calculate the scroll position as a fraction of the total scrollable area
+          const scrollFraction = Math.min(window.scrollY / (document.documentElement.scrollHeight - window.innerHeight), 1);
+          
+          // Calculate the new scale
+          const scale = 1 + scrollFraction * (maxScale - 1);
+          
+          // Apply the scale transform
+          image.style.transform = `scale(${scale})`;
 
-        if (image.clientWidth >= image.naturalWidth * maxScale) {
-          image.style.transform = `scale(${maxScale})`;
-        }
-      }
-
-      // Creating and configuring the intersection observer
-      const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            window.addEventListener('scroll', handleScrollZoom);
-          } else {
-            window.removeEventListener('scroll', handleScrollZoom);
+          // Optionally, you can set a maximum scale limit
+          if (scale >= maxScale) {
+            image.style.transform = `scale(${maxScale})`;
           }
-        });
-      }, { threshold: 0.1 });
 
-      // Targeting the image to observe
-      const target = document.getElementById('zoomImage');
-      observer.observe(target);
-  </script>
+          // To stop the image from growing after the specific size
+          if (image.clientWidth >= image.naturalWidth * maxScale) {
+            image.style.transform = `scale(${maxScale})`;
+          }
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              // Add the scroll event listener when the image is in the viewport
+              window.addEventListener('scroll', handleScrollZoom);
+            } else {
+              // Remove the scroll event listener when the image is out of the viewport
+              window.removeEventListener('scroll', handleScrollZoom);
+            }
+          });
+        }, {
+          threshold: 0.1 // Trigger when 10% of the image is visible
+        });
+
+        // Start observing the image
+        observer.observe(image);
+      });
+     </script>
 
   </body>
 </html>

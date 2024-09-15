@@ -1,0 +1,14 @@
+.showoff .safeTravelInfo {
+    margin-top: 100px;
+}
+
+#imgContainer {
+    margin-bottom: 75px; /* Adjust the value to increase/decrease space */
+}
+
+.logoShowOff .showOffLogo {
+    transition: transform 2s;
+    will-change: transform;
+    width: 100%; /* initial width */
+    max-width: 4000px; /* maximum size */
+}
