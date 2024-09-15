@@ -19,7 +19,7 @@
     justify-content: center;
     align-items: center;
     font-family: 'Orbitron';
-    font-size: 20px;
+    font-size: 40px;
     text-align: center;
 }
 
@@ -36,9 +36,19 @@
 .question {
     font-family: 'Orbitron';
     font-size: 30px;
-    margin: 30px;
+    margin: 250px;
+    margin-bottom: 400px;
 }
 
 .spaceSpecial {
     margin: 40px;
+}
+
+.showoff {
+    font-size: 100px;
+    margin-bottom: 200px;
+}
+
+.test {
+    margin: 200px;
 }

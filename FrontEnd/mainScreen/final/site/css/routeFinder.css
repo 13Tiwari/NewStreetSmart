@@ -9,6 +9,17 @@
     transition: background-color 0.3s ease; /* Smooth transition */
 }
 
+#routeBtn2 {
+    background-color: #436ecd; /* Orange background */
+    color: white; /* White text */
+    padding: 15px 30px; /* Padding */
+    font-size: 16px; /* Font size */
+    border: none; /* No border */
+    border-radius: 8px; /* Rounded corners */
+    cursor: pointer; /* Pointer/hand icon */
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
 #phoneImg {
     width: 400px; /* Adjust to desired width */
     height: auto; /* Maintain aspect ratio */
