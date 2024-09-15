@@ -34,11 +34,11 @@ def get_cluster_data():
         # print("CLUSTER ID: ", cluster_id)
         centroid = cluster_centroids[cluster_id]
         cluster_data.append({
-            'lat': centroid[0],
-            'lng': centroid[1],
-            'size': size
+            'lat': float(centroid[0]),
+            'lng': float(centroid[1]),
+            'size': int(size)
         })
-    # print("CLUSTER DATA\n", cluster_data)
+    #print("CLUSTER DATA\n", cluster_data)
     return jsonify({"clusters": cluster_data})
 
 if __name__ == '__main__':

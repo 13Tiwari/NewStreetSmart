@@ -131,15 +131,15 @@
       });
       //print(response.clusters)
       fetch('http://127.0.0.1:5000/api/cluster-data')
-                .then(response => response.clusters)
-                .then(clusterData => {
-                    // Call displayClusterData function here;
-                    console.log(clusterData);
-                    displayClusterData(clusterData);
-                })
-                .catch(error => {
-                    console.error('Error fetching cluster data:', error);
-                });
+          .then(response => response.json())  
+          .then(data => {
+            const clusterData = data.clusters;  
+              console.log(clusterData);
+              displayClusterData(clusterData);  
+          })
+          .catch(error => {
+              console.error('Error fetching cluster data:', error);
+          });
     }
 
     // Function to calculate and display route
@@ -203,9 +203,15 @@
         }
 
         clusterData.forEach(cluster => {
-            const marker = new google.maps.Marker({
-                position: { lat: cluster.lat, lng: cluster.lng },
+            const marker = new google.maps.Circle({
+                center: { lat: cluster.lat, lng: cluster.lng },
+                strokeColor: '#FF0000',
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: '#FF0000',
+                fillOpacity: 0.35,
                 map: map,
+                radius: Math.sqrt(cluster.size) * 10,
                 title: `Cluster size: ${cluster.size}`
             });
 
