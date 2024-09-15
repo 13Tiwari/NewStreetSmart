@@ -146,13 +146,15 @@
       const destination = destinationPlace ? destinationPlace.geometry.location : document.getElementById("destination").value;
 
       const waypoints = calculateWaypoints();
+      console.log('Waypoints:', waypoints);
 
       // Define route request parameters
       const request = {
         origin: start,
         destination: destination,
         travelMode: 'WALKING',
-        
+        waypoints: waypoints,
+        optimizeWaypoints: true,
       };
 
       // Request the route from DirectionsService
