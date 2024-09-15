@@ -1,0 +1,40 @@
+#routeBtn {
+    background-color: #436ecd; /* Orange background */
+    color: white; /* White text */
+    padding: 15px 30px; /* Padding */
+    font-size: 16px; /* Font size */
+    border: none; /* No border */
+    border-radius: 8px; /* Rounded corners */
+    cursor: pointer; /* Pointer/hand icon */
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+#phoneImg {
+    width: 400px; /* Adjust to desired width */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.buttonContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 400px;
+}
+
+.RouteFinder {
+    display: flex;
+    align-items: center;
+}
+
+.description {
+    font-size: 22px;
+    font-family: 'orbitron';
+    margin-bottom: 50px;
+}
+
+.contents {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}

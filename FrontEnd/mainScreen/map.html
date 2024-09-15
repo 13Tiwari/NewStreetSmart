@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Safe Walking Routes</title>
+
+  <style>
+    /* Basic styling for the map */
+    #map {
+      height: 80vh;
+      width: 100%;
+    }
+
+    body, html {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .controls {
+      margin: 10px;
+      padding: 10px;
+    }
+
+    input {
+      margin: 5px 0;
+      padding: 10px;
+      width: 250px;
+    }
+   
+
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    /* Sidebar for directions */
+    #sidebar {
+      height: 100%;
+      width: 300px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: #f8f9fa;
+      padding: 10px;
+      overflow-y: auto;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar for user input and directions -->
+  <div id="sidebar">
+    <input id="start" type="text" placeholder="Enter starting location" />
+    <input id="destination" type="text" placeholder="Enter destination" />
+    <button onclick="calculateRoute()">Find Safe Route</button>
+    <div id="directions-panel"></div> <!-- Panel for step-by-step directions -->
+  </div>
+
+  <!-- Map will be displayed here -->
+  <div id="map" style="margin-left: 320px;"></div> <!-- Adjust map to fit beside sidebar -->
+
+  <script>
+    let map;
+    let directionsService;
+    let directionsRenderer;
+    let trafficLayer;
+    let markerStart, markerEnd;
+
+    // Autocomplete objects for start and destination
+    let autocompleteStart, autocompleteDestination;
+
+    function initMap() {
+      // Map options
+      const mapOptions = {
+        center: { lat: 34.0549, lng: -118.2426 }, // Default to San Francisco
+        zoom: 13,
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: true,
+      };
+
+      // Create a new map
+      map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+      // Initialize directions service and renderer
+      directionsService = new google.maps.DirectionsService();
+      directionsRenderer = new google.maps.DirectionsRenderer({
+        draggable: true,
+        map: map,
+        panel: document.getElementById('directions-panel'),
+      });
+
+      const clussterData = [
+      { lat: 34.0141, lng: -118.2978},
+      { lat: 34.0459, lng: -118.2545 },
+      { lat: 34.0448, lng: -118.2474 }
+      ];
+
+      // Call displayClusterData function here
+      //displayClusterData(clusterData);
+
+      // Initialize traffic layer (optional)
+      trafficLayer = new google.maps.TrafficLayer();
+      trafficLayer.setMap(map);
+
+      // Set up autocomplete for the start and destination inputs
+      const startInput = document.getElementById('start');
+      const destinationInput = document.getElementById('destination');
+
+      // Initialize autocomplete objects
+      autocompleteStart = new google.maps.places.Autocomplete(startInput);
+      autocompleteDestination = new google.maps.places.Autocomplete(destinationInput);
+
+      // Restrict the search to geographical bounds (optional)
+      autocompleteStart.setBounds(map.getBounds());
+      autocompleteDestination.setBounds(map.getBounds());
+
+      // Add a map click listener to add markers (optional)
+      map.addListener('click', function(event) {
+        placeMarker(event.latLng);
+      });
+      //print(response.clusters)
+      fetch('http://127.0.0.1:5000/api/cluster-data')
+                .then(response => response.clusters)
+                .then(clusterData => {
+                    // Call displayClusterData function here
+                    clusterData = response.clusters;
+                    console.log(clusterData);
+                    displayClusterData(clusterData);
+                })
+                .catch(error => {
+                    console.error('Error fetching cluster data:', error);
+                });
+    }
+
+    // Function to calculate and display route
+    function calculateRoute() {
+      // Get the place details from the autocomplete inputs
+      const startPlace = autocompleteStart.getPlace();
+      const destinationPlace = autocompleteDestination.getPlace();
+
+      const start = startPlace ? startPlace.geometry.location : document.getElementById("start").value;
+      const destination = destinationPlace ? destinationPlace.geometry.location : document.getElementById("destination").value;
+
+      // Define route request parameters
+      const request = {
+        origin: start,
+        destination: destination,
+        travelMode: 'WALKING',
+      };
+
+      // Request the route from DirectionsService
+      directionsService.route(request, (result, status) => {
+        if (status === 'OK') {
+          // Display the route on the map
+          directionsRenderer.setDirections(result);
+
+          // Place markers at the start and end points
+          const startPoint = result.routes[0].legs[0].start_location;
+          const endPoint = result.routes[0].legs[0].end_location;
+
+          placeMarker(startPoint, true);
+          placeMarker(endPoint, false);
+        } else {
+          console.error('Error fetching directions', status);
+        }
+      });
+    }
+
+    // Function to place markers on the map
+    function placeMarker(location, isStart) {
+      if (isStart) {
+        if (markerStart) markerStart.setMap(null); // Remove previous start marker
+        markerStart = new google.maps.Marker({
+          position: location,
+          map: map,
+          title: 'Start Point',
+          icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', // Custom icon for start
+        });
+      } else {
+        if (markerEnd) markerEnd.setMap(null); // Remove previous end marker
+        markerEnd = new google.maps.Marker({
+          position: location,
+          map: map,
+          title: 'End Point',
+          icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png', // Custom icon for end
+        });
+      }
+    }
+    function displayClusterData(data) {
+            data.forEach(point => {
+                new google.maps.Marker({
+                    position: point,
+                    map: map,
+                    icon: {
+                        path: google.maps.SymbolPath.CIRCLE,
+                        scale: 5,
+                        fillColor: 'black',
+                        fillOpacity: 1,
+                        strokeWeight: 0
+                    }
+                });
+            });
+        }
+  </script>
+
+  <!-- Load Google Maps API asynchronously with defer -->
+  <script 
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9Kfxaon_Mid1E5aJ-EN4Er3YsvHyccKw&libraries=places&callback=initMap"
+    async 
+    defer>
+  </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+.logoShowOff .space {
+    margin: 500px;
+}
+
+.safeTravelInfo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Orbitron';
+    font: 20px;
+    text-align: center;
+  }

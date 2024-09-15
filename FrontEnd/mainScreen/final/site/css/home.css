@@ -1,0 +1,48 @@
+.globe {
+    margin: 0 auto;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+.globe-container {
+    width: 100%;
+    height: 700px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 100px; /* Consider reducing or removing this padding if not needed */
+}
+
+.Home {
+    background-color: #f9f9f9; /* Light grey background for the section */
+}
+
+.Home .safeTravelInfo {
+    align-items: center;
+    text-align: center;
+    padding-left: 300px;
+    font-size: 25px;
+}
+
+.Home .title {
+    font-family: 'orbitron';
+    font-size: 100px;
+    text-align: center; /* Center aligns the title */
+    margin-bottom: 20px; /* Adds space below the title */
+}
+
+.Home .info {
+    font-family: 'orbitron';
+    font-size: 20px;
+    width: 700px;
+    padding-right: 250px;
+}
+
+.Home .stats {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-left: 100px;
+}
